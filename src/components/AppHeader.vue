@@ -1,5 +1,8 @@
 <script setup>
-import AuthModal from '@/components/AuthModal.vue'; // ✅ правилен импорт
+import AuthModal from '@/components/AuthModal.vue';
+import { logout } from '@/services/authService';
+import { useUserStore } from '@/stores/userStore';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 const showAuthModal = ref(false);
@@ -8,6 +11,13 @@ const modalTab = ref('login');
 function openAuth(tab) {
   modalTab.value = tab;
   showAuthModal.value = true;
+}
+
+// Взимаме user от Pinia store
+const { user } = storeToRefs(useUserStore());
+
+async function handleLogout() {
+  await logout();
 }
 </script>
 
@@ -30,7 +40,9 @@ function openAuth(tab) {
         </router-link>
       </li>
     </ul>
-    <div class="auth-buttons">
+
+    <!-- Ако няма логнат user → Login & Register -->
+    <div v-if="!user" class="auth-buttons">
       <button class="btn login-btn" @click="openAuth('login')">
         Login
       </button>
@@ -39,12 +51,15 @@ function openAuth(tab) {
       </button>
     </div>
 
-    <!-- Модал за вход и регистрация -->
-    <AuthModal
-      :show="showAuthModal"
-      :start-tab="modalTab"
-      @close="showAuthModal = false"
-    />
+    <!-- Ако има логнат user → Logout -->
+    <div v-else class="auth-buttons">
+      <span>Welcome, {{ user.email }} !</span>
+      <button class="btn logout-btn" @click="handleLogout">
+        Logout
+      </button>
+    </div>
+
+    <AuthModal v-model:show="showAuthModal" :start-tab="modalTab" />
   </nav>
 </template>
 
@@ -57,7 +72,6 @@ function openAuth(tab) {
   justify-content: space-between;
   align-items: center;
 }
-
 .main-links {
   list-style: none;
   display: flex;
@@ -65,37 +79,15 @@ function openAuth(tab) {
   margin: 0;
   padding: 0;
 }
-
-.auth-buttons {
-  display: flex;
-  gap: 12px;
-}
-
+.auth-buttons { display: flex; gap: 12px; align-items: center; }
 .btn {
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  padding: 8px 16px; border-radius: 6px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s ease;
 }
-
-.login-btn {
-  background: transparent;
-  border: 2px solid #2F575D;
-  color: #2F575D;
-}
-.login-btn:hover {
-  background: #2F575D;
-  color: white;
-}
-
-.register-btn {
-  background: #658B6F;
-  border: 2px solid #658B6F;
-  color: white;
-}
-.register-btn:hover {
-  background: #2F575D;
-  border-color: #2F575D;
-}
+.login-btn { background: transparent; border: 2px solid #2F575D; color: #2F575D; }
+.login-btn:hover { background: #2F575D; color: #fff; }
+.register-btn { background: #658B6F; border: 2px solid #658B6F; color: #fff; }
+.register-btn:hover { background: #2F575D; border-color: #2F575D; }
+.logout-btn { background: transparent; border: 2px solid #B33A3A; color: #B33A3A; }
+.logout-btn:hover { background: #B33A3A; color: #fff; }
 </style>
