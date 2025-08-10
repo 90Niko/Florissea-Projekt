@@ -13,7 +13,6 @@ function openAuth(tab) {
   showAuthModal.value = true;
 }
 
-// Взимаме user от Pinia store
 const { user } = storeToRefs(useUserStore());
 
 async function handleLogout() {
@@ -41,7 +40,6 @@ async function handleLogout() {
       </li>
     </ul>
 
-    <!-- Ако няма логнат user → Login & Register -->
     <div v-if="!user" class="auth-buttons">
       <button class="btn login-btn" @click="openAuth('login')">
         Login
@@ -51,7 +49,6 @@ async function handleLogout() {
       </button>
     </div>
 
-    <!-- Ако има логнат user → Logout -->
     <div v-else class="auth-buttons">
       <span>Welcome, {{ user.email }} !</span>
       <button class="btn logout-btn" @click="handleLogout">

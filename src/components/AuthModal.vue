@@ -4,12 +4,11 @@ import Register from '@/pages/Register.vue';
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
-  show: { type: Boolean, default: false }, // за v-model:show
-  startTab: { type: String, default: 'login' }, // 'login' | 'register'
+  show: { type: Boolean, default: false },
+  startTab: { type: String, default: 'login' },
 });
 const emit = defineEmits(['update:show']);
 
-/* ДВУПОСОЧНО: computed getter/setter към v-model:show */
 const show = computed({
   get: () => props.show,
   set: v => emit('update:show', v),
@@ -25,7 +24,7 @@ const close = () => (show.value = false);
   <div v-if="show" class="modal-overlay" @click.self="close()">
     <transition name="fade-scale">
       <div class="modal-content">
-        <div class="tabs">
+        <!-- <div class="tabs">
           <button :class="{ active: activeTab === 'login' }" @click="activeTab = 'login'">
             Login
           </button>
@@ -35,9 +34,7 @@ const close = () => (show.value = false);
           <button class="x" aria-label="Close" @click="close()">
             ×
           </button>
-        </div>
-
-        <!-- ДЕТЕТО емитва 'close' → затваряме -->
+        </div> -->
         <transition name="slide-fade" mode="out-in">
           <component
             :is="activeTab === 'login' ? Login : Register"
@@ -59,7 +56,6 @@ const close = () => (show.value = false);
 .tabs button:hover { background:#658B6F; color:#fff; }
 .tabs .x { position:absolute; right:0; top:-8px; width:36px; height:36px; border:none; background:transparent; font-size:24px; line-height:1; color:#28363D; cursor:pointer; }
 
-/* анимации */
 .fade-scale-enter-active { animation: fadeIn .25s ease forwards; }
 .fade-scale-leave-active { animation: fadeOut .2s ease forwards; }
 @keyframes fadeIn { from{opacity:0; transform:scale(.96)} to{opacity:1; transform:scale(1)} }
