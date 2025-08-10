@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <p>
-      &copy; {{ new Date().getFullYear() }} Сапунени Цветя · Всички права запазени.
+      &copy; {{ new Date().getFullYear() }} Florrissea · All rights reserved..
     </p>
     <p class="subtext">
       Направено с 🧼 и ❤️
@@ -11,13 +11,13 @@
 
 <style>
 .footer {
-  background-color: #f5f5f5;      /* светло сив фон */
+  background-color: #DEE1DD;      /* светло сиво-зелено от палитрата */
   text-align: center;
   font-size: 14px;
-  padding: 24px 0;                /* вертикален padding */
+  padding: 24px 0;
   margin-top: 48px;
-  border-top: 1px solid #d1d1d1; /* светла горна граница */
-  color: #555555;
+  border-top: 1px solid #99AEAD; /* меко синьо-зелено */
+  color: #28363D;                /* много тъмно синьо-зелено */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -27,7 +27,7 @@
 
 .footer .subtext {
   margin-top: 8px;
-  color: #888888;
+  color: #2F575D;                /* дълбок синьо-зелен тон */
   font-style: italic;
 }
 </style>
