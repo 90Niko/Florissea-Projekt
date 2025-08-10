@@ -3,7 +3,7 @@ import { register } from '@/services/authService';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const emit = defineEmits(['close']); // важно: за да затворим модала
+const emit = defineEmits(['close']);
 
 const router = useRouter();
 const email = ref('');
@@ -21,13 +21,12 @@ async function submitRegister() {
     const { user, session } = await register(email.value, password.value);
     console.log('Register success', { user, session });
 
-    // Ако имаш включено email confirmation, session може да е null:
     if (!session) {
-      alert('Проверете имейла си за потвърждение.');
+      this.alert('Проверете имейла си за потвърждение.');
     }
 
-    emit('close'); // ✅ затваряме модала
-    router.push('/login'); // ✅ към Login
+    emit('close');
+    router.push('/login');
   }
   catch (err) {
     errorMsg.value = err.message || 'Registration failed';
